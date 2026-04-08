@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Stitch"
+  short_description: "Join two videos into one export"
+  default_prompt: "Use $video-stitch to join these two videos into one export."
