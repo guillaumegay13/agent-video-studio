@@ -14,7 +14,7 @@ Each skill is packaged with its own `SKILL.md` and `scripts/` folder so it can b
 ## Repo Layout
 
 - `skills/`: installable skill folders
-- `assets/`: local media inputs, ignored by git
+- `assets/`: local raw media inputs, ignored by git
 - `outputs/`: rendered outputs, ignored by git
 
 ## Usage
@@ -22,25 +22,30 @@ Each skill is packaged with its own `SKILL.md` and `scripts/` folder so it can b
 Mockup:
 
 ```bash
-python3 skills/mockup/scripts/mockup_video.py skills/mockup/assets/empty_mockup.png assets/mockup/input.mp4
+python3 skills/mockup/scripts/mockup_video.py skills/mockup/assets/empty_mockup.png assets/screen-recordings/input.mp4
 ```
 
 Snapchat overlay:
 
 ```bash
-python3 skills/snapchat-overlay/scripts/overlay.py assets/snapchat-overlay/input.mp4 "Your hook text"
+python3 skills/snapchat-overlay/scripts/overlay.py assets/hooks/input.mp4 "Your hook text"
 ```
 
 Video speed:
 
 ```bash
-python3 skills/video-speed/scripts/video_speed.py assets/mockup/input.mp4 1.5
+python3 skills/video-speed/scripts/video_speed.py assets/screen-recordings/input.mp4 1.5
 ```
 
 Video stitch:
 
 ```bash
-python3 skills/video-stitch/scripts/video_stitch.py assets/snapchat-overlay/hook.mp4 outputs/mockup/mockup.mp4 --format mp4
+python3 skills/video-stitch/scripts/video_stitch.py assets/hooks/hook.mp4 outputs/mockup/mockup.mp4 --format mp4
 ```
 
-The reusable phone mockup template is versioned inside `skills/mockup/assets/`. User-provided videos stay under the ignored root `assets/` folder.
+## Raw Inputs
+
+- put hook source videos in `assets/hooks/`
+- put phone screen recordings in `assets/screen-recordings/`
+
+The reusable phone mockup template is versioned inside `skills/mockup/assets/`. User-provided videos stay under the ignored root `assets/` folder, while generated files belong under `outputs/`.
