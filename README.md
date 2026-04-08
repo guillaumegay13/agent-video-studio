@@ -20,7 +20,7 @@ Each skill is packaged with its own `SKILL.md` and `scripts/` folder so it can b
 Mockup:
 
 ```bash
-python3 skills/mockup/scripts/mockup_video.py assets/mockup/empty_mockup.png assets/mockup/input.mp4
+python3 skills/mockup/scripts/mockup_video.py skills/mockup/assets/empty_mockup.png assets/mockup/input.mp4
 ```
 
 Snapchat overlay:
@@ -28,3 +28,5 @@ Snapchat overlay:
 ```bash
 python3 skills/snapchat-overlay/scripts/overlay.py assets/snapchat-overlay/input.mp4 "Your hook text"
 ```
+
+The reusable phone mockup template is versioned inside `skills/mockup/assets/`. User-provided videos stay under the ignored root `assets/` folder.

@@ -7,6 +7,8 @@ description: Composite a video or screen recording into a phone mockup frame wit
 
 Use `scripts/mockup_video.py` to render a video inside a phone frame.
 
+The bundled default template lives at `assets/empty_mockup.png`.
+
 ## Workflow
 
 1. Take a mockup PNG and an input video path from the user or workspace.
@@ -22,6 +24,12 @@ Use `scripts/mockup_video.py` to render a video inside a phone frame.
 python3 scripts/mockup_video.py <mockup.png> <input-video> [options]
 ```
 
+Example with the bundled template:
+
+```bash
+python3 scripts/mockup_video.py assets/empty_mockup.png /path/to/input.mp4
+```
+
 ## Fit Guidance
 
 - Use `--fit-mode contain` for normal app demos and screen recordings.
@@ -32,4 +40,3 @@ python3 scripts/mockup_video.py <mockup.png> <input-video> [options]
 
 - Default output goes to `outputs/mockup/` when the skill is used inside the repo layout.
 - When installed as a standalone skill, default output goes to `./outputs/mockup/` from the current working directory.
-
