@@ -16,9 +16,21 @@ from PIL import Image, ImageDraw, ImageFont
 from pilmoji import Pilmoji
 
 
-def get_project_root() -> Path:
-    """Return the repository root from the skill directory."""
-    return Path(__file__).resolve().parents[2]
+def get_skill_root() -> Path:
+    """Return the skill root by walking up to the directory with SKILL.md."""
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "SKILL.md").exists():
+            return parent
+    sys.exit("Could not locate skill root (SKILL.md not found).")
+
+
+def get_output_root(skill_name: str) -> Path:
+    """Return the preferred output root for repo and installed-skill layouts."""
+    skill_root = get_skill_root()
+    repo_root = skill_root.parent.parent
+    if skill_root.parent.name == "skills" and (repo_root / "skills").exists():
+        return repo_root / "outputs" / skill_name
+    return Path.cwd() / "outputs" / skill_name
 
 
 def get_video_info(input_path: str) -> dict:
@@ -290,7 +302,7 @@ def main():
     if args.output:
         output_path = Path(args.output)
     else:
-        output_dir = get_project_root() / "outputs" / "snapchat-overlay"
+        output_dir = get_output_root("snapchat-overlay")
         output_path = output_dir / f"{input_path.stem}_overlay{input_path.suffix}"
 
     output_path.parent.mkdir(parents=True, exist_ok=True)

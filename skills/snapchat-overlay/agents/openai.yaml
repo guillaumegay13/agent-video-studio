@@ -1,0 +1,4 @@
+interface:
+  display_name: "Snapchat Overlay"
+  short_description: "Add Snapchat-style captions to videos"
+  default_prompt: "Use $snapchat-overlay to add a Snapchat-style caption bar to this video."

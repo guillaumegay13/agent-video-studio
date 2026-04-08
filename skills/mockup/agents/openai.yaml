@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mockup"
+  short_description: "Place videos inside phone mockups"
+  default_prompt: "Use $mockup to composite this video into a phone mockup."
