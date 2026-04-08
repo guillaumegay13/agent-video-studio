@@ -1,0 +1,23 @@
+README.md
+  4c6199a5f86dd025 8,29-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "351464a19210332241b4aa322e19dd55cd681b5c",
+  "prompts": {
+    "4c6199a5f86dd025": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d6cee-98b1-7510-9bf2-94c5d722f16a",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Guillaume Gay",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 2,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
