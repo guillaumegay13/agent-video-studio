@@ -1,0 +1,12 @@
+/outputs/
+/assets/
+/output/
+.claude/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
