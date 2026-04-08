@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Flow Recording"
+  short_description: "Record Android or iOS mobile flows"
+  default_prompt: "Use $mobile-flow-recording to capture this Android Emulator flow as an mp4, or use iOS only if the task must stay on macOS."

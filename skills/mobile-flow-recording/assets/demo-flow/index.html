@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Flow Capture Demo</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --paper: rgba(255, 250, 244, 0.82);
+      --ink: #1a1814;
+      --muted: #6d6558;
+      --accent: #f15b3a;
+      --accent-soft: rgba(241, 91, 58, 0.18);
+      --line: rgba(26, 24, 20, 0.08);
+      --shadow: 0 24px 60px rgba(75, 43, 23, 0.16);
+      --radius: 28px;
+      --font-display: "Georgia", "Times New Roman", serif;
+      --font-body: "Avenir Next", "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.82), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(241, 91, 58, 0.1), transparent 20%),
+        linear-gradient(180deg, #f9f4eb 0%, #efe4d4 100%);
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .phone-shell {
+      width: min(100vw, 430px);
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.54), rgba(255,255,255,0.2));
+    }
+
+    .status {
+      position: absolute;
+      top: 14px;
+      left: 22px;
+      right: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      z-index: 8;
+      color: rgba(26, 24, 20, 0.82);
+    }
+
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .battery {
+      width: 24px;
+      height: 12px;
+      border: 1.6px solid currentColor;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .battery::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 3px;
+      width: 2px;
+      height: 4px;
+      border-radius: 1px;
+      background: currentColor;
+    }
+
+    .battery-fill {
+      position: absolute;
+      inset: 1px;
+      width: 72%;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .layer {
+      position: absolute;
+      inset: 0;
+      padding: 72px 18px 28px;
+      opacity: 0;
+      transform: translateY(22px) scale(0.98);
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(.2,.8,.2,1);
+      pointer-events: none;
+    }
+
+    .layer.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .layer.exit {
+      opacity: 0;
+      transform: translateY(-18px) scale(0.985);
+    }
+
+    .card {
+      border-radius: var(--radius);
+      background: var(--paper);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.48);
+    }
+
+    .hero {
+      min-height: 48%;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background:
+        linear-gradient(150deg, rgba(255,255,255,0.76), rgba(255,255,255,0.3)),
+        radial-gradient(circle at 12% 20%, rgba(241, 91, 58, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 24%, rgba(29, 88, 124, 0.12), transparent 24%);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(46px, 13vw, 62px);
+      max-width: 7ch;
+    }
+
+    h2 {
+      font-size: clamp(34px, 10vw, 42px);
+    }
+
+    .lede,
+    .body-copy {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .lede {
+      margin-top: 16px;
+      font-size: 15px;
+      max-width: 28ch;
+    }
+
+    .body-copy {
+      font-size: 14px;
+      margin: 12px 0 0;
+    }
+
+    .stack {
+      margin-top: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .action-row {
+      margin-top: auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 15px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      background: var(--accent);
+      color: #fff7f2;
+      box-shadow: 0 18px 30px rgba(241, 91, 58, 0.22);
+    }
+
+    .ghost {
+      background: rgba(255,255,255,0.48);
+      color: var(--ink);
+      box-shadow: none;
+      border: 1px solid rgba(26,24,20,0.08);
+    }
+
+    .metrics {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 14px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      line-height: 1;
+      font-family: var(--font-display);
+    }
+
+    .step-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+    }
+
+    .step-index {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .step-title {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .step-meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .step-state {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .queue {
+      padding: 22px;
+      margin-top: 14px;
+    }
+
+    .queue-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .mini-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(26,24,20,0.06);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .queue-item {
+      position: relative;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .queue-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .queue-label {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .queue-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(26,24,20,0.06);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ef6e4e, #ffb16e);
+      transform-origin: left center;
+      transform: scaleX(0);
+      animation: fill 2.6s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    .progress-fill.second {
+      animation-delay: 0.4s;
+    }
+
+    .progress-fill.third {
+      animation-delay: 0.8s;
+    }
+
+    .summary {
+      padding: 26px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .result-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(18, 145, 97, 0.12);
+      color: #116b4a;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .export-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .export-row {
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--line);
+    }
+
+    .export-name {
+      font-weight: 700;
+    }
+
+    .export-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .export-size {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .pulse {
+      position: absolute;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 3px solid rgba(241, 91, 58, 0.32);
+      opacity: 0;
+      transform: scale(0.4);
+      pointer-events: none;
+      z-index: 20;
+      animation: tap 1.1s ease-out forwards;
+    }
+
+    .pulse::after {
+      content: "";
+      position: absolute;
+      inset: 17px;
+      border-radius: 50%;
+      background: rgba(241, 91, 58, 0.18);
+    }
+
+    .p1 { top: 69%; left: 52%; animation-delay: 1.2s; }
+    .p2 { top: 43%; left: 68%; animation-delay: 5.1s; }
+    .p3 { top: 78%; left: 32%; animation-delay: 9.4s; }
+
+    .caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 14px;
+      z-index: 15;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(18, 17, 15, 0.62);
+      color: #fffaf2;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .caption.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fill {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes tap {
+      0% { opacity: 0; transform: scale(0.4); }
+      15% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.18); }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone-shell">
+    <div class="status">
+      <div>9:41</div>
+      <div class="status-right">
+        <span>5G</span>
+        <div class="battery"><div class="battery-fill"></div></div>
+      </div>
+    </div>
+
+    <section class="layer active" data-caption="Opening the flow">
+      <div class="hero card">
+        <div class="eyebrow">Video Studio</div>
+        <h1>Plan. Capture. Ship.</h1>
+        <p class="lede">A compact mobile workflow for building short-form demos without the usual editing sprawl.</p>
+        <div class="action-row">
+          <button class="button">Start capture</button>
+          <button class="button ghost">Templates</button>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric card">
+          <div class="metric-label">Projects</div>
+          <div class="metric-value">12</div>
+        </div>
+        <div class="metric card">
+          <div class="metric-label">Scenes</div>
+          <div class="metric-value">38</div>
+        </div>
+        <div class="metric card">
+          <div class="metric-label">Ready</div>
+          <div class="metric-value">04</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer" data-caption="Configuring the capture plan">
+      <div class="card summary">
+        <div class="eyebrow">Session Setup</div>
+        <h2>Capture recipe</h2>
+        <p class="body-copy">The flow assembles a hook, a clean screen capture, and an export preset before rendering starts.</p>
+        <div class="step-list">
+          <div class="step card">
+            <div class="step-index">1</div>
+            <div>
+              <div class="step-title">Hook clip</div>
+              <div class="step-meta">2.3s teaser selected</div>
+            </div>
+            <div class="step-state">Loaded</div>
+          </div>
+          <div class="step card">
+            <div class="step-index">2</div>
+            <div>
+              <div class="step-title">Phone mockup</div>
+              <div class="step-meta">Contain fit, raw screen detection</div>
+            </div>
+            <div class="step-state">Ready</div>
+          </div>
+          <div class="step card">
+            <div class="step-index">3</div>
+            <div>
+              <div class="step-title">Export target</div>
+              <div class="step-meta">1080 x 1920, mp4, social-safe</div>
+            </div>
+            <div class="step-state">Locked</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer" data-caption="Rendering the output">
+      <div class="queue card">
+        <div class="queue-head">
+          <div>
+            <div class="eyebrow" style="margin-bottom:8px">Render Queue</div>
+            <h2>Export in motion</h2>
+          </div>
+          <div class="mini-pill">live</div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-label">Normalize timeline</div>
+          <div class="queue-sub">Balancing source clips against a 9:16 canvas</div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-label">Composite device frame</div>
+          <div class="queue-sub">Aligning the screen capture inside the mockup shell</div>
+          <div class="progress-track"><div class="progress-fill second"></div></div>
+        </div>
+
+        <div class="queue-item">
+          <div class="queue-label">Finalize delivery package</div>
+          <div class="queue-sub">Muxing audio and fast-start metadata</div>
+          <div class="progress-track"><div class="progress-fill third"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer" data-caption="Export completed">
+      <div class="card summary">
+        <div class="result-chip">Export complete</div>
+        <h2>Assets ready to review</h2>
+        <p class="body-copy">The recorder captured the full automated flow from launch to final delivery. The files below are ready for the next step.</p>
+        <div class="export-grid">
+          <div class="export-row card">
+            <div>
+              <div class="export-name">hook-plus-mockup.mp4</div>
+              <div class="export-meta">Vertical master render</div>
+            </div>
+            <div class="export-size">18.4 MB</div>
+          </div>
+          <div class="export-row card">
+            <div>
+              <div class="export-name">review-stills.zip</div>
+              <div class="export-meta">Frame grabs for approval</div>
+            </div>
+            <div class="export-size">6 files</div>
+          </div>
+          <div class="export-row card">
+            <div>
+              <div class="export-name">delivery-notes.txt</div>
+              <div class="export-meta">Preset and timing summary</div>
+            </div>
+            <div class="export-size">1 KB</div>
+          </div>
+        </div>
+        <div class="action-row" style="margin-top:4px">
+          <button class="button">Open export</button>
+          <button class="button ghost">Share proof</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="pulse p1"></div>
+    <div class="pulse p2"></div>
+    <div class="pulse p3"></div>
+    <div class="caption" id="caption"></div>
+  </main>
+
+  <script>
+    const layers = [...document.querySelectorAll(".layer")];
+    const caption = document.getElementById("caption");
+    const timings = [0, 3600, 7600, 11200];
+    let current = 0;
+
+    function activate(index) {
+      layers.forEach((layer, layerIndex) => {
+        layer.classList.remove("active", "exit");
+        if (layerIndex < index) {
+          layer.classList.add("exit");
+        }
+        if (layerIndex === index) {
+          layer.classList.add("active");
+        }
+      });
+
+      const nextCaption = layers[index]?.dataset.caption || "";
+      caption.textContent = nextCaption;
+      caption.classList.toggle("active", Boolean(nextCaption));
+    }
+
+    activate(0);
+    timings.slice(1).forEach((delay, index) => {
+      window.setTimeout(() => {
+        current = index + 1;
+        activate(current);
+      }, delay);
+    });
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ Small multi-skill repo for short-form video production workflows.
 ## Skills
 
 - `skills/mockup`: place videos inside phone mockups
+- `skills/mobile-flow-recording`: record Android Emulator or iOS Simulator flows
 - `skills/snapchat-overlay`: add Snapchat-style caption bars
 - `skills/video-speed`: speed videos up or slow them down
 - `skills/video-stitch`: join a hook and a main clip into one export
@@ -23,6 +24,14 @@ Mockup:
 
 ```bash
 python3 skills/mockup/scripts/mockup_video.py skills/mockup/assets/empty_mockup.png assets/screen-recordings/input.mp4
+```
+
+Mobile flow recording:
+
+```bash
+python3 skills/mobile-flow-recording/scripts/record_mobile_flow.py android --serial emulator-5554 --duration 45
+python3 skills/mobile-flow-recording/scripts/record_mobile_flow.py android --run flutter drive --target integration_test/app_test.dart
+python3 skills/mobile-flow-recording/scripts/record_mobile_flow.py ios --run python3 run_agent_loop.py
 ```
 
 Snapchat overlay:
