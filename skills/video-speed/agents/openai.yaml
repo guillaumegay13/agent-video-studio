@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Speed"
+  short_description: "Change a video playback speed"
+  default_prompt: "Use $video-speed to change this video playback speed."
