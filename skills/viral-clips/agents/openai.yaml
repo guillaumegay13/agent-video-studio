@@ -1,0 +1,4 @@
+interface:
+  display_name: "Viral Clips"
+  short_description: "Extract viral vertical shorts from long-form video"
+  default_prompt: "Use $viral-clips to extract viral short clips from this video."

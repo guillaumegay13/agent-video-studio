@@ -9,8 +9,9 @@ Small multi-skill repo for short-form video production workflows.
 - `skills/snapchat-overlay`: add Snapchat-style caption bars
 - `skills/video-speed`: speed videos up or slow them down
 - `skills/video-stitch`: join a hook and a main clip into one export
+- `skills/viral-clips`: extract viral vertical shorts from long-form video (wraps the sibling [youtube-to-viral-clips](https://github.com/guillaumegay13/youtube-to-viral-clips) pipeline)
 
-Each skill is packaged with its own `SKILL.md` and `scripts/` folder so it can be installed from this repo as a Codex-compatible skill.
+Each skill is packaged with its own `SKILL.md` so it can be installed from this repo as a Codex-compatible skill. Most skills bundle their own `scripts/`; `viral-clips` instead drives the CLI of the sibling `../youtube-to-viral-clips` repository.
 
 ## Repo Layout
 
@@ -50,6 +51,13 @@ Video stitch:
 
 ```bash
 python3 skills/video-stitch/scripts/video_stitch.py assets/hooks/hook.mp4 outputs/mockup/mockup.mp4 --format mp4
+```
+
+Viral clips (two-speaker podcast to vertical shorts):
+
+```bash
+cd ../youtube-to-viral-clips
+python3 main.py --file /path/to/episode.mp4 --layout split-stack --subtitle-style "Viral Highlight"
 ```
 
 ## Raw Inputs
