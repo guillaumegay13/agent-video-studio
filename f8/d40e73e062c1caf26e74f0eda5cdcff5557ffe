@@ -1,0 +1,24 @@
+skills/viral-clips/agents/openai.yaml
+  s_83f527a4adcc23::t_a446e5010e4331 1-4
+README.md
+  s_83f527a4adcc23::t_076feac815998b 12,14
+  s_83f527a4adcc23::t_2f4330b150660a 56-62
+skills/viral-clips/SKILL.md
+  s_83f527a4adcc23::t_4205026378db33 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "f8d40e73e062c1caf26e74f0eda5cdcff5557ffe",
+  "prompts": {},
+  "sessions": {
+    "s_83f527a4adcc23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f43351c9-3106-4116-b9e0-fc155a2a37ba",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
