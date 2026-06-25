@@ -1,0 +1,21 @@
+skills/publish/tests/test_schedule_run.py
+  s_6f26c65b9be750::t_92660bccd0faef 1-64
+skills/publish/scripts/publish.py
+  s_6f26c65b9be750::t_60ba38f1019b29 61-190
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "8e2a0e368e5f4cc87e426d9cba8aa154ff0f0885",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
