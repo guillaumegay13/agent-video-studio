@@ -1,0 +1,29 @@
+skills/publish/conftest.py
+  s_6f26c65b9be750::t_1bd056ff95c88b 1-4
+skills/publish/.env.example
+  s_6f26c65b9be750::t_f0774e751eb526 1-12
+skills/publish/tests/test_config.py
+  s_6f26c65b9be750::t_4417ca92b4643e 1-20
+.gitignore
+  s_6f26c65b9be750::t_cee81dca2048ed 13-16
+skills/publish/requirements.txt
+  s_6f26c65b9be750::t_4e4c876ad29a4f 1-4
+skills/publish/scripts/config.py
+  s_6f26c65b9be750::t_71b46a3ea74fd5 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "18906083e6bf4ec00bc7abdf509a43c043284099",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
