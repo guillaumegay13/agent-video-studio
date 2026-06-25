@@ -1,0 +1,21 @@
+skills/publish/tests/test_cleanup.py
+  s_6f26c65b9be750::t_8ff7d0be678a26 1-34
+skills/publish/scripts/cleanup.py
+  s_6f26c65b9be750::t_983a3212cb1921 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "a4138cffb8cb4665c4a7a711c828c585972f5bc2",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
