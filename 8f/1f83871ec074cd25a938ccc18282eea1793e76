@@ -1,0 +1,21 @@
+skills/publish/tests/test_buffer_client.py
+  s_6f26c65b9be750::t_ad74f933e62b9e 1-64
+skills/publish/scripts/buffer_client.py
+  s_6f26c65b9be750::t_0cfb07ec13ae0b 1-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "8f1f83871ec074cd25a938ccc18282eea1793e76",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
