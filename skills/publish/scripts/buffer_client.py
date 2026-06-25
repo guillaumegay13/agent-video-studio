@@ -11,7 +11,8 @@ from __future__ import annotations
 import time
 
 ENDPOINT = "https://api.buffer.com"
-CAP_HINTS = ("notification", "reminder", "not allowed", "capability", "manual")
+CAP_HINTS = ("notification", "reminder", "reminders", "manual posting",
+             "manual publishing", "does not support automatic")
 
 
 class BufferError(Exception):
