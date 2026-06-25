@@ -54,11 +54,17 @@ def resolve_channels(requested, channels, allow_missing):
     return resolved, skipped
 
 
-def build_metadata(service, caption):
+# YouTube requires a category on every post (Buffer rejects posts without one,
+# verified live: "Invalid post: YouTube posts require a category"). 22 = People &
+# Blogs is valid in every region; override with --youtube-category.
+DEFAULT_YOUTUBE_CATEGORY = "22"
+
+
+def build_metadata(service, caption, youtube_category=DEFAULT_YOUTUBE_CATEGORY):
     """Map a Caption to Buffer per-platform metadata for one service."""
     if service == "youtube":
         return {"youtube": {"title": caption.youtube_title, "privacy": "public",
-                            "madeForKids": False}}
+                            "madeForKids": False, "categoryId": youtube_category}}
     if service == "tiktok":
         return {"tiktok": {"title": caption.tiktok_title}}
     if service == "instagram":
