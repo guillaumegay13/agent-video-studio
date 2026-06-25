@@ -1,0 +1,22 @@
+README.md
+  s_6f26c65b9be750::t_d21f456fd60df0 13
+  s_6f26c65b9be750::t_1c30cfbf59ba9e 64-69
+skills/publish/SKILL.md
+  s_6f26c65b9be750::t_f9ee91e733f667 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "4e8cc12eacab690bd21e57b73e1d0223a9ab701d",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
