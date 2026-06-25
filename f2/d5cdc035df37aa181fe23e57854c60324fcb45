@@ -1,0 +1,26 @@
+skills/publish/scripts/captioner.py
+  s_6f26c65b9be750::t_62ecc11a7c67ef 9,12-14,22,30-50,59,92-101,113
+skills/publish/tests/test_schedule_run.py
+  s_6f26c65b9be750::t_42c71132dc0109 30,53,75,103
+skills/publish/tests/test_captioner.py
+  s_6f26c65b9be750::t_89a6abe301d25d 32-55
+skills/publish/scripts/publish.py
+  s_6f26c65b9be750::t_9460d861c836a7 120,128
+  s_6f26c65b9be750::t_750ec8bd9ac14b 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "f2d5cdc035df37aa181fe23e57854c60324fcb45",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
