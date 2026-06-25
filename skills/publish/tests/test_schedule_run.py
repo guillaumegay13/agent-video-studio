@@ -27,7 +27,7 @@ def test_schedule_run_creates_one_post_per_channel(tmp_path, monkeypatch):
             "thumbnail_url": "https://x/clip.jpg"})
     monkeypatch.setattr("scripts.publish.build_caption",
         lambda meta, provider, cfg: SimpleNamespace(
-            caption="c", youtube_title="t", tiktok_title="tt", hashtags=["#a"]))
+            caption="c", youtube_title="t", tiktok_title="tt", hashtags=["#a"], source_url=None))
 
     buf = FakeBuffer()
     channels = [{"id": "yt1", "service": "youtube", "isDisconnected": False,
@@ -50,7 +50,7 @@ def test_dry_run_creates_no_posts(tmp_path, monkeypatch):
                                              "thumbnail_url": "t"})
     monkeypatch.setattr("scripts.publish.build_caption",
         lambda meta, provider, cfg: SimpleNamespace(
-            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[]))
+            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[], source_url=None))
     buf = FakeBuffer()
     channels = [{"id": "yt1", "service": "youtube", "isDisconnected": False,
                  "isLocked": False, "isQueuePaused": False}]
@@ -72,7 +72,7 @@ def test_existing_buffer_slot_is_skipped(tmp_path, monkeypatch):
             "video_url": "https://x/clip.mp4", "thumbnail_url": None})
     monkeypatch.setattr("scripts.publish.build_caption",
         lambda meta, provider, cfg: SimpleNamespace(
-            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[]))
+            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[], source_url=None))
 
     class BusyBuffer(FakeBuffer):
         def list_scheduled_due_ats(self, org_id, channel_id):
@@ -100,7 +100,7 @@ def test_mutation_error_on_one_channel_does_not_abort(tmp_path, monkeypatch):
             "video_url": "https://x/clip.mp4", "thumbnail_url": None})
     monkeypatch.setattr("scripts.publish.build_caption",
         lambda meta, provider, cfg: SimpleNamespace(
-            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[]))
+            caption="c", youtube_title="t", tiktok_title="tt", hashtags=[], source_url=None))
 
     class PartialBuffer(FakeBuffer):
         def create_post(self, channel_id, **kw):

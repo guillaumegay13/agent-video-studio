@@ -12,7 +12,7 @@ from scripts.config import load_config
 from scripts.clips import discover_clips
 from scripts.scheduling import compute_slots
 from scripts.ledger import Ledger
-from scripts.captioner import build_caption
+from scripts.captioner import build_caption, compose_description
 from scripts import media_host
 from scripts.buffer_client import BufferClient, CapabilityError, MutationError
 
@@ -117,7 +117,7 @@ def schedule_run(clips_dir, resolved_channels, buffer, org_id, cfg, ledger,
             mode = "automatic"
             try:
                 post_id = buffer.create_post(
-                    channel_id=ch["id"], text=caption.caption,
+                    channel_id=ch["id"], text=compose_description(caption),
                     video_url=upload["video_url"],
                     thumbnail_url=upload["thumbnail_url"], due_at=due_at,
                     scheduling_type=mode, metadata=metadata)
@@ -125,7 +125,7 @@ def schedule_run(clips_dir, resolved_channels, buffer, org_id, cfg, ledger,
                 mode = "notification"
                 try:
                     post_id = buffer.create_post(
-                        channel_id=ch["id"], text=caption.caption,
+                        channel_id=ch["id"], text=compose_description(caption),
                         video_url=upload["video_url"],
                         thumbnail_url=upload["thumbnail_url"], due_at=due_at,
                         scheduling_type=mode, metadata=metadata)
