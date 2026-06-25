@@ -1,0 +1,21 @@
+skills/publish/tests/test_captioner.py
+  s_6f26c65b9be750::t_92a4e45996f8ae 1-31
+skills/publish/scripts/captioner.py
+  s_6f26c65b9be750::t_34ed3085bb0b17 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "5a242fed7a2d2b44e999fc7a2c8a00062953aa15",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
