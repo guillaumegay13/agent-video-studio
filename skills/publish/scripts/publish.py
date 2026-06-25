@@ -16,6 +16,12 @@ from scripts.captioner import build_caption
 from scripts import media_host
 from scripts.buffer_client import BufferClient, CapabilityError, MutationError
 
+def _parse_due_at(value: str):
+    """Parse Buffer's ISO-8601 dueAt string into a UTC-aware datetime."""
+    from datetime import datetime
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
 TARGET_SERVICES = {"youtube", "tiktok", "instagram"}
 
 
@@ -72,7 +78,9 @@ def schedule_run(clips_dir, resolved_channels, buffer, org_id, cfg, ledger,
     # Occupied slots per channel come from Buffer (source of truth).
     occupied = {}
     for ch in resolved_channels:
-        occupied[ch["id"]] = set(buffer.list_scheduled_due_ats(org_id, ch["id"]))
+        occupied[ch["id"]] = {
+            _parse_due_at(s) for s in buffer.list_scheduled_due_ats(org_id, ch["id"])
+        }
 
     for clip in clips:
         clip_key = f"clip_{clip.index}"
@@ -109,15 +117,23 @@ def schedule_run(clips_dir, resolved_channels, buffer, org_id, cfg, ledger,
                     scheduling_type=mode, metadata=metadata)
             except CapabilityError:
                 mode = "notification"
-                post_id = buffer.create_post(
-                    channel_id=ch["id"], text=caption.caption,
-                    video_url=upload["video_url"],
-                    thumbnail_url=upload["thumbnail_url"], due_at=due_at,
-                    scheduling_type=mode, metadata=metadata)
+                try:
+                    post_id = buffer.create_post(
+                        channel_id=ch["id"], text=caption.caption,
+                        video_url=upload["video_url"],
+                        thumbnail_url=upload["thumbnail_url"], due_at=due_at,
+                        scheduling_type=mode, metadata=metadata)
+                except MutationError as exc:
+                    summary["skipped"].append(
+                        f"{clip_key}->{ch['service']}: notification retry failed: {exc}")
+                    continue
+            except MutationError as exc:
+                summary["skipped"].append(f"{clip_key}->{ch['service']}: {exc}")
+                continue
             ledger.record_post(clip_key, ch["id"], post_id, mode, due_at, "posted")
+            ledger.save()
             summary["posted"] += 1
             summary["modes"][ch["service"]] = mode
-        ledger.save()
     return summary
 
 
