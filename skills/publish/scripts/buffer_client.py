@@ -73,11 +73,13 @@ class BufferClient:
 
     def list_scheduled_due_ats(self, org_id: str, channel_id: str) -> list[str]:
         """Return dueAt strings of scheduled/sending posts for a channel
-        (the scheduling source of truth). Schema-confirmed fields used at impl time."""
+        (the scheduling source of truth). Verified live: channelIds/status live
+        under PostsInput.filter, and posts() returns {edges:[{node:Post}]}."""
         data = self._gql(
             "query($i: PostsInput!){ posts(input:$i, first:100){ "
             "edges{ node{ id dueAt status } } } }",
-            {"i": {"organizationId": org_id, "channelIds": [channel_id]}},
+            {"i": {"organizationId": org_id,
+                   "filter": {"channelIds": [channel_id]}}},
         )
         edges = data.get("posts", {}).get("edges", [])
         return [e["node"]["dueAt"] for e in edges

@@ -87,3 +87,22 @@ def test_non_capability_mutation_error_raises_mutation_error():
                            scheduling_type="automatic", metadata={})
     # must be the base MutationError, not the CapabilityError subclass
     assert not isinstance(exc.value, CapabilityError)
+
+
+def test_list_scheduled_due_ats_filters_and_nests_channel_ids():
+    captured = {}
+
+    def fake_post(url, **kwargs):
+        captured["vars"] = kwargs["json"]["variables"]
+        return FakeResp({"data": {"posts": {"edges": [
+            {"node": {"id": "p1", "dueAt": "2026-06-26T16:00:00.000Z", "status": "scheduled"}},
+            {"node": {"id": "p2", "dueAt": "2025-05-10T15:54:56.000Z", "status": "sent"}},
+            {"node": {"id": "p3", "dueAt": None, "status": "sending"}},
+        ]}}})
+
+    client = BufferClient(token="t", _post=fake_post)
+    due = client.list_scheduled_due_ats("org1", "chan1")
+    # channelIds must be nested under filter (Buffer 400s otherwise)
+    assert captured["vars"]["i"]["filter"]["channelIds"] == ["chan1"]
+    # only scheduled/sending with a dueAt are returned
+    assert due == ["2026-06-26T16:00:00.000Z"]
