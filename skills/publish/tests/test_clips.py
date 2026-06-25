@@ -43,3 +43,19 @@ def test_missing_metadata_raises(tmp_path):
     (tmp_path / "clip_4_final_subtitled.mp4").write_bytes(b"x")
     with pytest.raises(ClipMappingError):
         discover_clips(tmp_path)
+
+
+def test_discover_handles_viral_clip_scheme(tmp_path):
+    # Real pipeline output for some runs uses the `viral_clip_<N>_score_<s>` scheme,
+    # with a `_seam_` layout variant alongside the standard `_score_` subtitled clip.
+    (tmp_path / "viral_clip_1_score_6.0_subtitled.mp4").write_bytes(b"x")
+    (tmp_path / "viral_clip_1_seam_subtitled.mp4").write_bytes(b"x")
+    (tmp_path / "viral_clip_1_score_6.0.mp4").write_bytes(b"x")
+    _write(tmp_path / "viral_clip_1_score_6.0.json",
+           {"score": 6.0, "reason": "ai costs zero"})
+    clips = discover_clips(tmp_path)
+    assert len(clips) == 1
+    assert clips[0].index == 1
+    # prefers the _score_ subtitled render over the _seam_ variant
+    assert clips[0].video_path.name == "viral_clip_1_score_6.0_subtitled.mp4"
+    assert clips[0].metadata["reason"] == "ai costs zero"
