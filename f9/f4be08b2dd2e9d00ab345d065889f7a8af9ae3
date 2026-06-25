@@ -1,0 +1,21 @@
+skills/publish/scripts/clips.py
+  s_6f26c65b9be750::t_8ee83a5c9310c1 28-36,38-39,41,47-48,54-60,63-66,69-72,74-77
+skills/publish/tests/test_clips.py
+  s_6f26c65b9be750::t_c92c1b73182968 46-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "f9f4be08b2dd2e9d00ab345d065889f7a8af9ae3",
+  "prompts": {},
+  "sessions": {
+    "s_6f26c65b9be750": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d733d8a2-bea7-4160-a157-4b6d632e3953",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
