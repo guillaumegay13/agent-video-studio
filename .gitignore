@@ -10,3 +10,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# superpowers specs/plans (do not commit)
+docs/superpowers/
+.env
