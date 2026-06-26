@@ -1,0 +1,49 @@
+skills/publish/requirements.txt
+  s_4181ac0158b548::t_db18a39352e2b5 4-5
+skills/publish/scripts/youtube_publish.py
+  s_4181ac0158b548::t_e769d157140684 191-192
+  s_4181ac0158b548::t_28c764b98f8b5a 1-14,16-36,38-40,45,47,49-66,85,87,89-93,96-141,143-150,153-154,157,168,172-190,193-201
+  s_4181ac0158b548::t_93ce200b76627d 86,88
+  s_4181ac0158b548::t_c71f12f7cac198 67-84,94-95
+  s_4181ac0158b548::t_cf714f2ff6f41f 15
+  s_4181ac0158b548::t_a0556da054adb6 37,41-44,46,48
+  s_4181ac0158b548::t_befbab850f787b 142
+  s_4181ac0158b548::t_26c857da8f6823 151-152,158
+  s_4181ac0158b548::t_210b47ffd43aa4 169-171
+  s_4181ac0158b548::t_577f0f816f230d 155-156,159-167
+skills/publish/tests/test_youtube_publish.py
+  s_4181ac0158b548::t_b2229e21f95dfa 1-40,52-75,77-80,85-143
+  s_4181ac0158b548::t_a617413ee72db7 41-51
+  s_4181ac0158b548::t_f90c37036111e1 76,81-84
+  s_4181ac0158b548::t_74ac8ba3c5f123 144-166
+skills/publish/scripts/youtube_uploader.py
+  s_4181ac0158b548::t_3a90a846882aaf 87-125
+  s_4181ac0158b548::t_486ca695ca29f3 1-10,16-86,126-130
+  s_4181ac0158b548::t_51653093bb5d5a 11-15
+.gitignore
+  s_4181ac0158b548::t_2d5679ef568cb0 4-5
+skills/publish/scripts/config.py
+  s_4181ac0158b548::t_ea9a4be64a258d 53-55
+  s_4181ac0158b548::t_1cb0d943047b13 27-29
+skills/publish/tests/test_youtube_uploader.py
+  s_4181ac0158b548::t_ab7d02346898b9 1-48
+skills/publish/scripts/youtube_auth.py
+  s_4181ac0158b548::t_3ba0d7f54c07ec 17-18,22-24
+  s_4181ac0158b548::t_c2fabd8c77b58f 1-16,19-21,25-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "3180a581a785818dffd8e0f0521511c39c370efe",
+  "prompts": {},
+  "sessions": {
+    "s_4181ac0158b548": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe6186a8-5780-45cf-a3b1-39f53f76a43c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
