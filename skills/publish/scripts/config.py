@@ -24,6 +24,9 @@ class Config:
     caption_provider: str
     openai_api_key: str
     anthropic_api_key: str
+    youtube_client_id: str = ""
+    youtube_client_secret: str = ""
+    youtube_refresh_token: str = ""
 
 
 def _skill_root() -> Path:
@@ -47,4 +50,7 @@ def load_config(require: tuple[str, ...] = ()) -> Config:
         caption_provider=os.environ.get("CAPTION_PROVIDER", "openai"),
         openai_api_key=os.environ.get("OPENAI_API_KEY", ""),
         anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
+        youtube_client_id=os.environ.get("YOUTUBE_CLIENT_ID", ""),
+        youtube_client_secret=os.environ.get("YOUTUBE_CLIENT_SECRET", ""),
+        youtube_refresh_token=os.environ.get("YOUTUBE_REFRESH_TOKEN", ""),
     )

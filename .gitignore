@@ -1,6 +1,8 @@
 /outputs/
 /assets/
 /output/
+# per-skill runtime outputs (ledgers, scheduled-post state)
+skills/*/outputs/
 .claude/
 __pycache__/
 *.pyc
