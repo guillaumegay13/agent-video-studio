@@ -17,10 +17,6 @@ class ConfigError(Exception):
 
 @dataclass
 class Config:
-    buffer_token: str
-    cloudinary_cloud_name: str
-    cloudinary_api_key: str
-    cloudinary_api_secret: str
     caption_provider: str
     openai_api_key: str
     anthropic_api_key: str
@@ -43,10 +39,6 @@ def load_config(require: tuple[str, ...] = ()) -> Config:
     if missing:
         raise ConfigError(f"Missing required env vars: {', '.join(missing)}")
     return Config(
-        buffer_token=os.environ.get("BUFFER_ACCESS_TOKEN", ""),
-        cloudinary_cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
-        cloudinary_api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
-        cloudinary_api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
         caption_provider=os.environ.get("CAPTION_PROVIDER", "openai"),
         openai_api_key=os.environ.get("OPENAI_API_KEY", ""),
         anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),

@@ -10,7 +10,7 @@ Small multi-skill repo for short-form video production workflows.
 - `skills/video-speed`: speed videos up or slow them down
 - `skills/video-stitch`: join a hook and a main clip into one export
 - `skills/viral-clips`: extract viral vertical shorts from long-form video (wraps the sibling [youtube-to-viral-clips](https://github.com/guillaumegay13/youtube-to-viral-clips) pipeline)
-- `skills/publish`: schedule viral clips to YouTube/TikTok/Instagram via the Buffer API (Cloudinary-hosted, LLM captions)
+- `skills/publish`: schedule viral clips to YouTube as Shorts via direct Data-API upload (scheduled publishAt, LLM captions)
 
 Each skill is packaged with its own `SKILL.md` so it can be installed from this repo as a Codex-compatible skill. Most skills bundle their own `scripts/`; `viral-clips` instead drives the CLI of the sibling `../youtube-to-viral-clips` repository.
 
@@ -61,10 +61,10 @@ cd ../youtube-to-viral-clips
 python3 main.py --file /path/to/episode.mp4 --layout split-stack --subtitle-style "Viral Highlight"
 ```
 
-Publish (schedule clips to social via Buffer):
+Publish (schedule clips to YouTube as Shorts, one per day):
 
 ```bash
-python3 skills/publish/scripts/publish.py --clips ../youtube-to-viral-clips/outputs --channels youtube --per-day 1
+python3 skills/publish/scripts/youtube_publish.py --clips ../youtube-to-viral-clips/outputs --per-day 1 --hour 18 --timezone Europe/Paris
 ```
 
 ## Raw Inputs
