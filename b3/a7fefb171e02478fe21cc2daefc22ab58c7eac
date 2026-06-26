@@ -1,0 +1,28 @@
+skills/publish/.env.example
+  s_4181ac0158b548::t_42b64c8e610245 1-6,8
+README.md
+  s_4181ac0158b548::t_f1aa9235ceee7f 13
+  s_4181ac0158b548::t_f093e085725c81 64,67
+skills/publish/SKILL.md
+  s_4181ac0158b548::t_e814f5feb65a82 3,8-10,14-16,18-24,29-32,34-35,37-38,40-41,46,48-56,60-65
+skills/publish/tests/test_config.py
+  s_4181ac0158b548::t_f0a4b4647fcb97 2,6-9
+  s_4181ac0158b548::t_5b17bb9e61e710 13-16,18-20,24,26
+  s_4181ac0158b548::t_1894e5db702bfa 10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "b3a7fefb171e02478fe21cc2daefc22ab58c7eac",
+  "prompts": {},
+  "sessions": {
+    "s_4181ac0158b548": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe6186a8-5780-45cf-a3b1-39f53f76a43c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Guillaume Gay <guillaume.gay@protonmail.com>"
+    }
+  }
+}
