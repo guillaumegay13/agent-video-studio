@@ -123,7 +123,7 @@ def test_run_schedules_top_clips_and_records_ledger(tmp_path, monkeypatch):
     assert len(uploaded) == 2
     # Two distinct daily slots, a day apart
     assert (uploaded[1][1] - uploaded[0][1]).days == 1
-    assert ("clip_1", "youtube") in ledger.posts
+    assert (f"{clips_dir.name}/clip_1", "youtube") in ledger.posts
 
 
 def test_run_skips_already_scheduled(tmp_path, monkeypatch):
@@ -134,7 +134,7 @@ def test_run_skips_already_scheduled(tmp_path, monkeypatch):
                         lambda *a, **k: pytest.fail("should not upload"))
 
     ledger = FakeLedger()
-    ledger.record_post("clip_1", "youtube", "existing", "scheduled", "x", "scheduled")
+    ledger.record_post(f"{clips_dir.name}/clip_1", "youtube", "existing", "scheduled", "x", "scheduled")
     summary = yp.run(clips_dir, ledger, FakeCfg(), max_clips=6, per_day=1,
                      start_date=date(2026, 6, 27), hour=18, end_hour=22,
                      tz="Europe/Paris", order="score", category="22",
@@ -164,3 +164,18 @@ def test_run_stacks_after_existing_scheduled_slots(tmp_path, monkeypatch):
 
     # New clip must land on day 2, not double-book the occupied day 1.
     assert yp.yt.to_rfc3339(captured[0]) == "2026-06-28T16:00:00Z"
+
+
+def test_run_does_not_skip_same_index_from_another_clips_dir(tmp_path, monkeypatch):
+    clips_dir = _make_clip_dir(tmp_path, [(1, "6.0")])
+    monkeypatch.setattr(yp, "build_caption", lambda meta, provider, cfg: Caption(
+        caption="hook", youtube_title="Hook!", tiktok_title="Hook!", hashtags=[]))
+    monkeypatch.setattr(yp.yt, "upload_video", lambda *a, **k: "vidNew")
+
+    ledger = FakeLedger()
+    ledger.record_post("clip_1", "youtube", "old", "scheduled", "x", "scheduled")
+    summary = yp.run(clips_dir, ledger, FakeCfg(), max_clips=6, per_day=1,
+                     start_date=date(2026, 6, 27), hour=18, end_hour=22,
+                     tz="Europe/Paris", order="score", category="22",
+                     dry_run=False, service=object())
+    assert summary["scheduled"] == 1

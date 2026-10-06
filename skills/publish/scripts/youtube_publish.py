@@ -83,7 +83,8 @@ def occupied_slots(ledger) -> set:
 
 
 def run(clips_dir, ledger, cfg, *, max_clips, per_day, start_date, hour,
-        end_hour, tz, order, category, dry_run, exclude=(), service=None):
+        end_hour, tz, order, category, dry_run, exclude=(), service=None,
+        source_url=None):
     clips = discover_clips(clips_dir)
     selected = select_and_order(clips, order, max_clips, exclude)
     if not selected:
@@ -96,12 +97,15 @@ def run(clips_dir, ledger, cfg, *, max_clips, per_day, start_date, hour,
 
     summary = {"planned": 0, "scheduled": 0, "skipped": []}
     for clip, slot in zip(selected, slots):
-        clip_key = f"clip_{clip.index}"
+        # Scope keys to the clips dir so clip_1 of one episode never matches another's.
+        clip_key = f"{Path(clips_dir).name}/clip_{clip.index}"
         if ledger.has_post(clip_key, CHANNEL):
             summary["skipped"].append(f"{clip_key}: already scheduled")
             continue
 
         caption = build_caption(clip.metadata, provider=cfg.caption_provider, cfg=cfg)
+        if source_url:  # local-file clips carry no recoverable YouTube id
+            caption.source_url = source_url
         title = caption.youtube_title
         description = shorts_description(caption)
         tags = build_tags(caption)
@@ -151,6 +155,8 @@ def main(argv=None):
     p.add_argument("--exclude", default="",
                    help="comma list of clip indices to drop, e.g. 5")
     p.add_argument("--category", default=yt.DEFAULT_CATEGORY_ID)
+    p.add_argument("--source-url", default=None,
+                   help="full-episode URL to link from each Short (overrides metadata)")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--list", action="store_true",
                    help="list scheduled videos from YouTube and exit (needs readonly)")
@@ -189,7 +195,7 @@ def main(argv=None):
                   per_day=args.per_day, start_date=start, hour=args.hour,
                   end_hour=args.end_hour, tz=args.timezone, order=args.order,
                   category=args.category, dry_run=args.dry_run, exclude=exclude,
-                  service=service)
+                  service=service, source_url=args.source_url)
 
     print(f"\nPlanned {summary['planned']}, scheduled {summary['scheduled']}, "
           f"skipped {len(summary['skipped'])}")
