@@ -34,12 +34,30 @@ python3 skills/publish/scripts/youtube_publish.py \
 # Preview the schedule + generated titles without uploading
 python3 skills/publish/scripts/youtube_publish.py --clips <dir> --dry-run
 
+# Link each Short to a full episode uploaded from a local file
+python3 skills/publish/scripts/youtube_publish.py --clips <dir> --source-url https://youtu.be/<id>
+
 # Drop specific clip indices (e.g. a redundant moment)
 python3 skills/publish/scripts/youtube_publish.py --clips <dir> --exclude 5
 
 # List videos already scheduled on the channel (needs the readonly scope)
 python3 skills/publish/scripts/youtube_publish.py --list
 ```
+
+## Full episodes
+
+Upload a long-form episode with its custom thumbnail. Private by default so it can
+be reviewed in YouTube Studio; `--publish-at` schedules the public release instead.
+Put chapters (`00:00 Intro` lines) in the description file. Each upload is recorded in
+`outputs/publish/episodes.json`.
+
+```bash
+python3 skills/publish/scripts/youtube_publish_episode.py \
+    --video episode.mp4 --title "..." --description-file description.txt \
+    --thumbnail thumbnail.png --tags "IA,podcast" [--publish-at 2026-10-08T18:00:00+02:00] [--dry-run]
+```
+
+Use the episode URL it prints as the link target when scheduling Shorts from that episode.
 
 ## How it works
 

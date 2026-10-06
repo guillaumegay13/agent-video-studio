@@ -12,6 +12,8 @@ SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     # readonly lets us list/verify scheduled videos and stack after manual schedules
     "https://www.googleapis.com/auth/youtube.readonly",
+    # manage lets us edit metadata/visibility after upload (videos.update)
+    "https://www.googleapis.com/auth/youtube",
 ]
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 # 22 = "People & Blogs": valid in every region and a safe default for talk clips.

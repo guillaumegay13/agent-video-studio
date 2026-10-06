@@ -19,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 ENV_PATH = SKILL_ROOT / ".env"
 
-# Single source of truth for scopes: upload (videos.insert + publishAt) plus
-# readonly (verify/list scheduled videos).
+# Single source of truth for scopes: upload (videos.insert + publishAt), manage
+# (videos.update) and readonly (verify/list scheduled videos).
 from scripts.youtube_uploader import SCOPES
 REDIRECT_PORT = 8080
 
